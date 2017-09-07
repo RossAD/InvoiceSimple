@@ -1,0 +1,27 @@
+{
+  "name": "interviewed-angular",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "watch": "node_modules/.bin/webpack --watch --colors"
+  },
+  "dependencies": {
+    "body-parser": "1.15.2",
+    "cors": "2.8.1",
+    "express": "~4.13.4",
+    "lodash": "latest",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "sequelize": "^3.20.0",
+    "sqlite3": "latest"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "webpack": "^3.5.6"
+  }
+}
