@@ -20,15 +20,12 @@
 
 
 # Overview
-A React environment and basic application scaffold are preconfigured for this project. The babel transformer will allow you to write JSX and ES2015 syntax.
+A React environment and application scaffold are pre-configured for this project. The Babel transpiler will allow you to write JSX and ES2015 syntax.
 
-We did not include other libraries but encourage you to use any number of the following: 
+We did not include other libraries but encourage you to use any the following: 
 - React Router
-- Redux
-- ReactStrap (react bootstrap)
-
-
-There is already basic app scaffold. 
+- Redux or Mobx 
+- Reactstrap or Material UI
 
 
 # Schema
