@@ -28,7 +28,7 @@ We did not include other libraries but encourage you to use any the following:
 - Reactstrap or Material UI
 
 
-# Schema
+# API Schema
 
 ## Customers
 
