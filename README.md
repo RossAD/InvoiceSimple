@@ -18,6 +18,19 @@
 ###### Viewing the application in your browser
 `http://localhost:8000`
 
+
+# Overview
+A React environment and basic application scaffold is preconfigured for this project. The babel transformer will allow you to write JSX and ES2015 syntax.
+
+We did not include other libraries but encourage you to use any number of the following: 
+- React Router
+- Redux
+- ReactStrap (react bootstrap)
+
+
+There is already basic app scaffold. 
+
+
 # Schema
 
 ## Customers
