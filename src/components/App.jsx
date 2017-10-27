@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Navbar from './Navbar'
+import { fetchInvoices } from '../actions/invoiceActions.js'
 
-export default class App extends Component {
+class App extends Component {
+
+  componentWillMount() {
+    this.props.dispatch(fetchInvoices())
+  }
+
   render() {
     return (
       <div>
@@ -14,3 +21,10 @@ export default class App extends Component {
     )
   }
 }
+
+const mapPropsToState = state => {
+  const { invoices } = state
+  return invoices
+}
+
+export default connect(mapPropsToState)(App)
