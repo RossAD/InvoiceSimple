@@ -24922,8 +24922,11 @@ var _customerReducer = __webpack_require__(232);
 
 var _productReducer = __webpack_require__(233);
 
+var _invoiceItemReducer = __webpack_require__(238);
+
 var appReducer = (0, _redux.combineReducers)({
   invoices: _invoiceReducer.invoices,
+  invoiceItems: _invoiceItemReducer.invoiceItems,
   customers: _customerReducer.customers,
   products: _productReducer.products
 });
@@ -25327,6 +25330,64 @@ var fetchProducts = exports.fetchProducts = function fetchProducts() {
       return dispatch(receiveProducts(json));
     });
   };
+};
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.invoiceItems = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _actionTypes = __webpack_require__(25);
+
+var invoiceItems = exports.invoiceItems = function invoiceItems() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    isFetching: false,
+    items: [],
+    item: {},
+    invoiceId: 0,
+    itemId: 0
+  };
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.REQUEST_INVOICE_ITEMS:
+      return _extends({}, state, {
+        invoiceId: action.invoiceId,
+        isFetching: true
+      });
+    case _actionTypes.RECEIVE_INVOICE_ITEMS:
+      return _extends({}, state, {
+        isFetching: false,
+        items: action.items
+      });
+    case _actionTypes.REQUEST_INVOICE_ITEM:
+      return _extends({}, state, {
+        isFetching: true,
+        invoiceId: action.invoiceId,
+        itemId: action.itemId
+      });
+    case _actionTypes.RECEIVE_INVOICE_ITEM:
+      return _extends({}, state, {
+        isFetching: false,
+        item: action.item
+      });
+    case _actionTypes.UPDATE_INVOICE_ITEM:
+      return _extends({}, state, {
+        invoiceId: action.invoiceId,
+        itemId: action.itemId
+      });
+    default:
+      return state;
+  }
 };
 
 /***/ })

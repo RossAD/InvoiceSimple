@@ -2,6 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { fetchCustomers } from '../actions/customerActions.js'
 import { fetchProducts } from '../actions/productActions.js'
+import { 
+  fetchInvoiceItem, 
+  fetchInvoiceItems, 
+  fetchUpdateInvoiceItem, 
+  fetchDeleteInvoiceItem 
+} from '../actions/invoiceItemActions.js'
 
 class InvoiceForm extends React.Component {
   constructor(props) { 
@@ -11,6 +17,7 @@ class InvoiceForm extends React.Component {
       selectedProduct:{},
       invoiceProducts:[],
       productQuantity:0,
+      invoiceTotal:0
     }
   }
 
@@ -40,8 +47,17 @@ class InvoiceForm extends React.Component {
               ))
             }</select>
           </label>
-          <label>Product Quantity
-            <input value={this.state.quantity}
+          <label>
+            Product Quantity
+            <input value={this.state.quantity} />
+          </label>
+          <label>
+            Invoice Discount
+            <input value={this.state.discount} />
+          </label>
+          <label>
+            Invoice Total
+            {this.state.total}
           </label>
         </form>
       </div>  
