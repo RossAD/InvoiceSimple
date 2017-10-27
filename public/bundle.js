@@ -22435,6 +22435,10 @@ var _Navbar2 = _interopRequireDefault(_Navbar);
 
 var _invoiceActions = __webpack_require__(232);
 
+var _customerActions = __webpack_require__(235);
+
+var _productActions = __webpack_require__(237);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22456,10 +22460,23 @@ var App = function (_Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.props.dispatch((0, _invoiceActions.fetchInvoices)());
+      this.props.dispatch((0, _customerActions.fetchCustomers)());
+      this.props.dispatch((0, _productActions.fetchProducts)());
     }
   }, {
     key: 'render',
     value: function render() {
+      var invoices = this.props.invoices;
+
+      var listInvoices = invoices.map(function (item) {
+        return _react2.default.createElement(
+          'li',
+          null,
+          'Item ID:  ',
+          item.id
+        );
+      });
+
       return _react2.default.createElement(
         'div',
         null,
@@ -22469,7 +22486,25 @@ var App = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'container' },
-          'Implement me'
+          'Invoice List',
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'ul',
+              null,
+              this.products.listInvoices
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'button',
+              null,
+              'Add Invoice'
+            )
+          )
         )
       );
     }
@@ -22479,9 +22514,15 @@ var App = function (_Component) {
 }(_react.Component);
 
 var mapPropsToState = function mapPropsToState(state) {
-  var invoices = state.invoices;
+  var invoices = state.invoices,
+      customers = state.customers,
+      products = state.products;
 
-  return invoices;
+  return {
+    invoices: invoices,
+    customers: customers,
+    products: products
+  };
 };
 
 exports.default = (0, _reactRedux.connect)(mapPropsToState)(App);
@@ -24941,6 +24982,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 var REQUEST_INVOICES = exports.REQUEST_INVOICES = 'REQUEST_INVOICES';
 var RECEIVE_INVOICES = exports.RECEIVE_INVOICES = 'RECEIVE_INVOICES';
+var ADD_INVOICE = exports.ADD_INVOICE = 'ADD_INVOICE';
+var REQUEST_CUSTOMERS = exports.REQUEST_CUSTOMERS = 'REQUEST_CUSTOMERS';
+var RECEIVE_CUSTOMERS = exports.RECEIVE_CUSTOMERS = 'RECEIVE_CUSTOMERS';
+var REQUEST_PRODUCTS = exports.REQUEST_PRODUCTS = 'REQUEST_PRODUCTS';
+var RECEIVE_PRODUCTS = exports.RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS';
 
 /***/ }),
 /* 229 */
@@ -24984,8 +25030,14 @@ var _redux = __webpack_require__(188);
 
 var _invoiceReducer = __webpack_require__(231);
 
+var _customerReducer = __webpack_require__(234);
+
+var _productReducer = __webpack_require__(236);
+
 var appReducer = (0, _redux.combineReducers)({
-  invoices: _invoiceReducer.invoices
+  invoices: _invoiceReducer.invoices,
+  customers: _customerReducer.customers,
+  products: _productReducer.products
 });
 
 exports.default = appReducer;
@@ -25038,7 +25090,7 @@ var invoices = exports.invoices = function invoices() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchInvoices = exports.receiveInvoices = exports.requestInvoices = undefined;
+exports.fetchInvoices = exports.addInvoice = exports.receiveInvoices = exports.requestInvoices = undefined;
 
 var _actionTypes = __webpack_require__(228);
 
@@ -25046,6 +25098,7 @@ var _actionHelper = __webpack_require__(233);
 
 var requestInvoices = exports.requestInvoices = (0, _actionHelper.makeActionCreator)(_actionTypes.REQUEST_INVOICES);
 var receiveInvoices = exports.receiveInvoices = (0, _actionHelper.makeActionCreator)(_actionTypes.RECEIVE_INVOICES, 'invoices');
+var addInvoice = exports.addInvoice = (0, _actionHelper.makeActionCreator)(_actionTypes.ADD_INVOICE, 'invoice');
 
 var fetchInvoices = exports.fetchInvoices = function fetchInvoices() {
   return function (dispatch) {
@@ -25057,6 +25110,17 @@ var fetchInvoices = exports.fetchInvoices = function fetchInvoices() {
     });
   };
 };
+
+// export const fetchAddInvoice = invoice => dispatch => {
+//   dispatch(addInvoice(invoice))
+//   return fetch('http://localhost:8000/api/invoices', {
+//     method: 'POST',
+//     headers: {'Content-Type': 'application/json'},
+//     body: invoice
+//   })
+//   .then(response => response.json())
+//   .then(json => )
+// }
 
 /***/ }),
 /* 233 */
@@ -25083,6 +25147,142 @@ var makeActionCreator = exports.makeActionCreator = function makeActionCreator(t
       action[argNames[index]] = args[index];
     });
     return action;
+  };
+};
+
+/***/ }),
+/* 234 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.customers = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _customerActions = __webpack_require__(235);
+
+var customers = exports.customers = function customers() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    isFetching: false,
+    customers: []
+  };
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _customerActions.REQUEST_CUSTOMERS:
+      return _extends({}, state, {
+        isFetching: true
+      });
+    case _customerActions.RECEIVE_CUSTOMERS:
+      return _extends({}, state, {
+        isFetching: false,
+        customers: action.customers
+      });
+    default:
+      return state;
+  }
+};
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchCustomers = exports.receiveCustomers = exports.requestCustomers = undefined;
+
+var _actionTypes = __webpack_require__(228);
+
+var _actionHelper = __webpack_require__(233);
+
+var requestCustomers = exports.requestCustomers = (0, _actionHelper.makeActionCreator)(_actionTypes.REQUEST_CUSTOMERS);
+var receiveCustomers = exports.receiveCustomers = (0, _actionHelper.makeActionCreator)(_actionTypes.RECEIVE_CUSTOMERS, 'customers');
+
+var fetchCustomers = exports.fetchCustomers = function fetchCustomers() {
+  return function (dispatch) {
+    dispatch(requestCustomers());
+    return fetch('http://localhost:8000/api/customers').then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      return dispatch(receiveCustomers(json));
+    });
+  };
+};
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.products = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _actionTypes = __webpack_require__(228);
+
+var products = exports.products = function products() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    isFetching: false,
+    products: []
+  };
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.REQUEST_PRODUCTS:
+      return _extends({}, state, {
+        isFetching: true
+      });
+    case _actionTypes.RECEIVE_PRODUCTS:
+      return _extends({}, state, {
+        isFetching: false,
+        products: action.products
+      });
+    default:
+      return state;
+  }
+};
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchProducts = exports.receiveProducts = exports.requestProducts = undefined;
+
+var _actionTypes = __webpack_require__(228);
+
+var _actionHelper = __webpack_require__(233);
+
+var requestProducts = exports.requestProducts = (0, _actionHelper.makeActionCreator)(_actionTypes.REQUEST_PRODUCTS);
+var receiveProducts = exports.receiveProducts = (0, _actionHelper.makeActionCreator)(_actionTypes.RECEIVE_PRODUCTS, 'products');
+
+var fetchProducts = exports.fetchProducts = function fetchProducts() {
+  return function (dispatch) {
+    dispatch(requestProducts());
+    return fetch('http://localhost:8000/api/customers').then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      return dispatch(receiveProducts(json));
+    });
   };
 };
 
