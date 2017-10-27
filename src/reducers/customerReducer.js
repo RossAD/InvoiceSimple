@@ -5,13 +5,13 @@ import {
 
 export const customers = ( state = {
   isFetching: false,
-  customers: [],
+  customers: []
 }, action) => {
   switch (action.type) {
     case REQUEST_CUSTOMERS:
       return { 
         ...state,
-        isFetching:true
+        isFetching: true
       }
     case RECEIVE_CUSTOMERS:
       return {

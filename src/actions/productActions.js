@@ -10,7 +10,7 @@ export const receiveProducts = makeActionCreator(RECEIVE_PRODUCTS, 'products')
 
 export const fetchProducts = () => dispatch => {
   dispatch(requestProducts())
-  return fetch('http://localhost:8000/api/customers')
+  return fetch('http://localhost:8000/api/products')
     .then(response => response.json())
     .then(json => dispatch(receiveProducts(json)))
 }

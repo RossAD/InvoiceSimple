@@ -9,14 +9,27 @@ class App extends Component {
 
   componentWillMount() {
     this.props.dispatch(fetchInvoices())
-    this.props.dispatch(fetchCustomers())
     this.props.dispatch(fetchProducts())
+    this.props.dispatch(fetchCustomers())
+  }
+
+  componentDidMount() {
+    console.log('my props: ', this.props)
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.contacts !== this.props.contacts){
+      this.nextProps.dispatch(fetchCustomers())
+    }
   }
 
   render() {
-    const { invoices } = this.props
-    const listInvoices = invoices.map(item => (
+    const { invoices, customers, products } = this.props
+    const listInvoices = invoices.invoices.map(item => (
       <li>Item ID:  {item.id}</li>
+    ))
+    const listProducts = products.products.map(item => (
+      <li key={item.id}>{item.name}</li>
     ))
 
     return (
@@ -26,7 +39,7 @@ class App extends Component {
         <div className="container">
           Invoice List
           <div>
-            <ul>{this.products.listInvoices}</ul>        
+            <ol>{listProducts}</ol>        
           </div>
           <div>
             <button>Add Invoice</button>

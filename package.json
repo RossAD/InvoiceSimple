@@ -12,6 +12,7 @@
     "cors": "2.8.1",
     "express": "~4.13.4",
     "lodash": "latest",
+    "prop-types": "^15.6.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
