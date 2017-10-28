@@ -25076,6 +25076,10 @@ var _customerActions = __webpack_require__(99);
 
 var _productActions = __webpack_require__(237);
 
+var _InvoiceForm = __webpack_require__(239);
+
+var _InvoiceForm2 = _interopRequireDefault(_InvoiceForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25164,7 +25168,8 @@ var App = function (_Component) {
               'Add Invoice'
             )
           )
-        )
+        ),
+        _react2.default.createElement(_InvoiceForm2.default, null)
       );
     }
   }]);
@@ -25388,6 +25393,247 @@ var invoiceItems = exports.invoiceItems = function invoiceItems() {
     default:
       return state;
   }
+};
+
+/***/ }),
+/* 239 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(20);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(93);
+
+var _customerActions = __webpack_require__(99);
+
+var _productActions = __webpack_require__(237);
+
+var _invoiceItemActions = __webpack_require__(240);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var InvoiceForm = function (_React$Component) {
+  _inherits(InvoiceForm, _React$Component);
+
+  function InvoiceForm(props) {
+    _classCallCheck(this, InvoiceForm);
+
+    var _this = _possibleConstructorReturn(this, (InvoiceForm.__proto__ || Object.getPrototypeOf(InvoiceForm)).call(this, props));
+
+    _this.state = {
+      selectedCustomer: {},
+      selectedProduct: {},
+      invoiceProducts: [],
+      productQuantity: 0,
+      discount: 0,
+      invoiceTotal: 0
+    };
+    return _this;
+  }
+
+  _createClass(InvoiceForm, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var dispatch = this.props.dispatch;
+
+      dispatch((0, _customerActions.fetchCustomers)());
+      dispatch((0, _productActions.fetchProducts)());
+    }
+  }, {
+    key: 'handleFormChange',
+    value: function handleFormChange(event) {
+      var dipatch = this.props.dipatch;
+
+      dispatch((0, _invoiceItemActions.fetchUpdateInvoiceItem)(this.state));
+    }
+  }, {
+    key: 'handleCustomerChange',
+    value: function handleCustomerChange(event) {
+      this.setState({ selectedCustomer: event.target.value });
+    }
+  }, {
+    key: 'handleProductChange',
+    value: function handleProductChange(event) {
+      this.setState({ selectedProduct: event.target.value });
+    }
+  }, {
+    key: 'handleQuantityChange',
+    value: function handleQuantityChange(event) {
+      var sum = 0;
+
+      this.setState({ productQuantity: event.target.value });
+    }
+  }, {
+    key: 'handleDiscountChange',
+    value: function handleDiscountChange(event) {
+      this.setState({ discount: event.target.value });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'form',
+          { onChange: this.handleChange },
+          _react2.default.createElement(
+            'label',
+            null,
+            'Choose Customer:',
+            _react2.default.createElement(
+              'select',
+              {
+                value: this.state.selectedCustomer,
+                onChange: this.handleCustomerChange
+              },
+              this.props.customers.customers.map(function (item) {
+                return _react2.default.createElement(
+                  'option',
+                  { value: item.id },
+                  item.name
+                );
+              })
+            )
+          ),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Choose Product',
+            _react2.default.createElement(
+              'select',
+              {
+                value: this.state.selectedProduct,
+                onchange: this.handleProductChange
+              },
+              this.props.products.products.map(function (item) {
+                return _react2.default.createElement(
+                  'option',
+                  { value: item.id },
+                  item.name
+                );
+              })
+            )
+          ),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Product Quantity',
+            _react2.default.createElement('input', {
+              value: this.state.quantity,
+              onChange: this.handleQuantityChange
+            })
+          ),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Invoice Discount',
+            _react2.default.createElement('input', {
+              value: this.state.discount,
+              onChange: this.handleDiscountChange
+            })
+          ),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Invoice Total',
+            this.state.total
+          )
+        )
+      );
+    }
+  }]);
+
+  return InvoiceForm;
+}(_react2.default.Component);
+
+var mapPropsToState = function mapPropsToState(state) {
+  var customers = state.customers,
+      products = state.products;
+
+  return {
+    customers: customers,
+    products: products
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapPropsToState)(InvoiceForm);
+
+/***/ }),
+/* 240 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchAddInvoiceItem = exports.fetchInvoiceItem = exports.fetchInvoiceItems = exports.addInvoiceItem = exports.deleteInvoiceItem = exports.updateInvoiceItem = exports.receiveInvoiceItems = exports.requestInvoiceItems = exports.receiveInvoiceItem = exports.requestInvoiceItem = undefined;
+
+var _actionTypes = __webpack_require__(25);
+
+var _actionHelper = __webpack_require__(55);
+
+var requestInvoiceItem = exports.requestInvoiceItem = (0, _actionHelper.makeActionCreator)(_actionTypes.REQUEST_INVOICE_ITEM, 'invoiceId', 'itemId');
+var receiveInvoiceItem = exports.receiveInvoiceItem = (0, _actionHelper.makeActionCreator)(_actionTypes.RECEIVE_INVOICE_ITEM, 'item');
+var requestInvoiceItems = exports.requestInvoiceItems = (0, _actionHelper.makeActionCreator)(_actionTypes.REQUEST_INVOICE_ITEMS, 'invoiceId');
+var receiveInvoiceItems = exports.receiveInvoiceItems = (0, _actionHelper.makeActionCreator)(_actionTypes.RECEIVE_INVOICE_ITEMS, 'items');
+var updateInvoiceItem = exports.updateInvoiceItem = (0, _actionHelper.makeActionCreator)(_actionTypes.UPDATE_INVOICE_ITEM, 'invoiceId', 'itemId');
+var deleteInvoiceItem = exports.deleteInvoiceItem = (0, _actionHelper.makeActionCreator)(_actionTypes.DELETE_INVOICE_ITEM, 'invoiceId', 'itemId');
+var addInvoiceItem = exports.addInvoiceItem = (0, _actionHelper.makeActionCreator)(_actionTypes.ADD_INVOICE_ITEM, 'invoiceId', 'item');
+
+var fetchInvoiceItems = exports.fetchInvoiceItems = function fetchInvoiceItems(invoiceId) {
+  return function (dispatch) {
+    dispatch(requestInvoiceItems(invoiceId));
+    return fetch('http://localhost:8000/api/invoices/' + invoiceId + '/items').then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      return dispatch(receiveInvoiceItems(json));
+    });
+  };
+};
+
+var fetchInvoiceItem = exports.fetchInvoiceItem = function fetchInvoiceItem(invoiceId, itemId) {
+  return function (dispatch) {
+    dispatch(requestInvoiceItem(invoiceId, itemId));
+    return fetch('http://localhost:8000/api/invoices/' + invoiceId + '/items/' + itemId).then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      return dispatch(receiveInvoiceItem(json));
+    });
+  };
+};
+
+var fetchAddInvoiceItem = exports.fetchAddInvoiceItem = function fetchAddInvoiceItem(invoiceId, item) {
+  return function (dispatch) {
+    dispatch(addInvoiceItem(item));
+    return fetch('http://localhost:8000/api/invoices/' + invoiceId + '/items', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: item
+    }).then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      return console.log('Item added');
+    });
+  };
 };
 
 /***/ })

@@ -4,7 +4,8 @@ import {
   REQUEST_INVOICE_ITEM,
   RECEIVE_INVOICE_ITEM,
   UPDATE_INVOICE_ITEM,
-  DELETE_INVOICE_ITEM
+  DELETE_INVOICE_ITEM,
+  ADD_INVOICE_ITEM,
 } from '../actions/actionTypes.js'
 
 import { makeActionCreator } from '../actions/actionHelper.js'
@@ -15,6 +16,7 @@ export const requestInvoiceItems = makeActionCreator(REQUEST_INVOICE_ITEMS, 'inv
 export const receiveInvoiceItems = makeActionCreator(RECEIVE_INVOICE_ITEMS, 'items')
 export const updateInvoiceItem = makeActionCreator(UPDATE_INVOICE_ITEM, 'invoiceId', 'itemId')
 export const deleteInvoiceItem = makeActionCreator(DELETE_INVOICE_ITEM, 'invoiceId', 'itemId')
+export const addInvoiceItem = makeActionCreator(ADD_INVOICE_ITEM, 'invoiceId','item')
 
 
 export const fetchInvoiceItems = (invoiceId) => dispatch => {
@@ -31,3 +33,15 @@ export const fetchInvoiceItem = (invoiceId, itemId) => dispatch => {
     .then(json => dispatch(receiveInvoiceItem(json)))
 }
 
+export const fetchAddInvoiceItem = (invoiceId, item) => dispatch => {
+  dispatch(addInvoiceItem(item))
+  return fetch(`http://localhost:8000/api/invoices/${invoiceId}/items`,
+    {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: item
+    }
+  )
+  .then(response => response.json())
+  .then(json => console.log('Item added'))
+}

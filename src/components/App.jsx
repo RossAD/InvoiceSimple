@@ -4,6 +4,7 @@ import Navbar from './Navbar'
 import { fetchInvoices } from '../actions/invoiceActions.js'
 import { fetchCustomers } from '../actions/customerActions.js'
 import { fetchProducts } from '../actions/productActions.js'
+import InvoiceForm from './InvoiceForm.jsx'
 
 class App extends Component {
 
@@ -45,6 +46,7 @@ class App extends Component {
             <button>Add Invoice</button>
           </div>
         </div>
+        <InvoiceForm />
       </div>
     )
   }

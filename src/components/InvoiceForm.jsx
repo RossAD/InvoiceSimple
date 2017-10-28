@@ -6,7 +6,8 @@ import {
   fetchInvoiceItem, 
   fetchInvoiceItems, 
   fetchUpdateInvoiceItem, 
-  fetchDeleteInvoiceItem 
+  fetchDeleteInvoiceItem,
+  fetchAddInvoice
 } from '../actions/invoiceItemActions.js'
 
 class InvoiceForm extends React.Component {
@@ -17,6 +18,7 @@ class InvoiceForm extends React.Component {
       selectedProduct:{},
       invoiceProducts:[],
       productQuantity:0,
+      discount: 0,
       invoiceTotal:0
     }
   }
@@ -27,13 +29,39 @@ class InvoiceForm extends React.Component {
     dispatch(fetchProducts())
   }
 
+  handleFormChange(event){
+    const {dipatch} = this.props
+    dispatch(fetchUpdateInvoiceItem(this.state))
+  }
+
+  handleCustomerChange(event){
+    this.setState({selectedCustomer: event.target.value})
+  }
+
+  handleProductChange(event){
+    this.setState({selectedProduct: event.target.value})
+  }
+
+  handleQuantityChange(event){
+    let sum = 0
+
+    this.setState({productQuantity: event.target.value})
+  }
+
+  handleDiscountChange(event){
+    this.setState({discount: event.target.value})
+  }
+
   render() {
     return(
       <div>
-        <form>
+        <form onChange={this.handleChange}>
           <label>
             Choose Customer:
-            <select value={this.state.selectedCustomer}>{
+            <select 
+              value={this.state.selectedCustomer}
+              onChange={this.handleCustomerChange}
+            >{
               this.props.customers.customers.map(item => (
                 <option value={item.id}>{item.name}</option>
               ))
@@ -41,7 +69,10 @@ class InvoiceForm extends React.Component {
           </label>
           <label>
             Choose Product
-            <select value={this.state.selectedProduct}>{
+            <select 
+              value={this.state.selectedProduct}
+              onchange={this.handleProductChange}
+            >{
               this.props.products.products.map(item => (
                 <option value={item.id}>{item.name}</option>
               ))
@@ -49,11 +80,17 @@ class InvoiceForm extends React.Component {
           </label>
           <label>
             Product Quantity
-            <input value={this.state.quantity} />
+            <input 
+              value={this.state.quantity} 
+              onChange={this.handleQuantityChange}
+            />
           </label>
           <label>
             Invoice Discount
-            <input value={this.state.discount} />
+            <input 
+              value={this.state.discount} 
+              onChange={this.handleDiscountChange}
+            />
           </label>
           <label>
             Invoice Total
