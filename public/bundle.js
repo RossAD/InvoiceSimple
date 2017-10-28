@@ -25156,7 +25156,7 @@ var App = function (_Component) {
             _react2.default.createElement(
               'ol',
               null,
-              listProducts
+              listInvoices
             )
           ),
           _react2.default.createElement(
@@ -25436,6 +25436,39 @@ var InvoiceForm = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (InvoiceForm.__proto__ || Object.getPrototypeOf(InvoiceForm)).call(this, props));
 
+    _this.handleFormChange = function (event) {
+      var dipatch = _this.props.dipatch;
+
+      var invoiceObj = {
+        'customerId': _this.state.selectedCustomer.id,
+        'discount': _this.state.discount,
+        'total': _this.state.invoiceTotal
+      };
+      if (_this.props.invoiceItem.items.contains(_this.state.selectedProduct)) {
+        dispatch((0, _invoiceItemActions.fetchUpdateInvoiceItem)(_this.state.selectedProduct));
+      } else {
+        dispatch((0, _invoiceItemActions.fetchAddInvoiceItem)(_this.state.selectedProduct));
+      }
+      dispatch(f);
+    };
+
+    _this.handleCustomerChange = function (event) {
+      _this.setState({ selectedCustomer: event.target.value });
+    };
+
+    _this.handleProductChange = function (event) {
+      _this.setState({ selectedProduct: event.target.value });
+    };
+
+    _this.handleQuantityChange = function (event) {
+      var sum = 0;
+      _this.setState({ productQuantity: event.target.value });
+    };
+
+    _this.handleDiscountChange = function (event) {
+      _this.setState({ discount: event.target.value });
+    };
+
     _this.state = {
       selectedCustomer: {},
       selectedProduct: {},
@@ -25454,35 +25487,6 @@ var InvoiceForm = function (_React$Component) {
 
       dispatch((0, _customerActions.fetchCustomers)());
       dispatch((0, _productActions.fetchProducts)());
-    }
-  }, {
-    key: 'handleFormChange',
-    value: function handleFormChange(event) {
-      var dipatch = this.props.dipatch;
-
-      dispatch((0, _invoiceItemActions.fetchUpdateInvoiceItem)(this.state));
-    }
-  }, {
-    key: 'handleCustomerChange',
-    value: function handleCustomerChange(event) {
-      this.setState({ selectedCustomer: event.target.value });
-    }
-  }, {
-    key: 'handleProductChange',
-    value: function handleProductChange(event) {
-      this.setState({ selectedProduct: event.target.value });
-    }
-  }, {
-    key: 'handleQuantityChange',
-    value: function handleQuantityChange(event) {
-      var sum = 0;
-
-      this.setState({ productQuantity: event.target.value });
-    }
-  }, {
-    key: 'handleDiscountChange',
-    value: function handleDiscountChange(event) {
-      this.setState({ discount: event.target.value });
     }
   }, {
     key: 'render',
@@ -25520,7 +25524,7 @@ var InvoiceForm = function (_React$Component) {
               'select',
               {
                 value: this.state.selectedProduct,
-                onchange: this.handleProductChange
+                onChange: this.handleProductChange
               },
               this.props.products.products.map(function (item) {
                 return _react2.default.createElement(
@@ -25569,7 +25573,8 @@ var mapPropsToState = function mapPropsToState(state) {
 
   return {
     customers: customers,
-    products: products
+    products: products,
+    invoices: invoices
   };
 };
 

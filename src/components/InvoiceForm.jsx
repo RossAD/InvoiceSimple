@@ -7,7 +7,7 @@ import {
   fetchInvoiceItems, 
   fetchUpdateInvoiceItem, 
   fetchDeleteInvoiceItem,
-  fetchAddInvoice
+  fetchAddInvoiceItem
 } from '../actions/invoiceItemActions.js'
 
 class InvoiceForm extends React.Component {
@@ -29,26 +29,35 @@ class InvoiceForm extends React.Component {
     dispatch(fetchProducts())
   }
 
-  handleFormChange(event){
+  handleFormChange = (event) => {
     const {dipatch} = this.props
-    dispatch(fetchUpdateInvoiceItem(this.state))
+    const invoiceObj = {
+      'customerId':this.state.selectedCustomer.id,
+      'discount':this.state.discount,
+      'total':this.state.invoiceTotal
+    }
+    if(this.props.invoiceItem.items.contains(this.state.selectedProduct)){
+      dispatch(fetchUpdateInvoiceItem(this.state.selectedProduct))
+    } else {
+      dispatch(fetchAddInvoiceItem(this.state.selectedProduct))
+    }
+    dispatch(f)
   }
 
-  handleCustomerChange(event){
+  handleCustomerChange = (event) => {
     this.setState({selectedCustomer: event.target.value})
   }
 
-  handleProductChange(event){
+  handleProductChange = (event) => {
     this.setState({selectedProduct: event.target.value})
   }
 
-  handleQuantityChange(event){
+  handleQuantityChange = (event) => {
     let sum = 0
-
     this.setState({productQuantity: event.target.value})
   }
 
-  handleDiscountChange(event){
+  handleDiscountChange = (event) => {
     this.setState({discount: event.target.value})
   }
 
@@ -71,7 +80,7 @@ class InvoiceForm extends React.Component {
             Choose Product
             <select 
               value={this.state.selectedProduct}
-              onchange={this.handleProductChange}
+              onChange={this.handleProductChange}
             >{
               this.props.products.products.map(item => (
                 <option value={item.id}>{item.name}</option>
@@ -106,7 +115,8 @@ const mapPropsToState = state => {
   const { customers, products } = state
   return {
     customers,
-    products
+    products,
+    invoices
   }
 }
 

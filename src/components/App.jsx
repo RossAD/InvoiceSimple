@@ -36,11 +36,10 @@ class App extends Component {
     return (
       <div>
         <Navbar onClick={(path) => alert(`Show ${path}`)} />
-
         <div className="container">
           Invoice List
           <div>
-            <ol>{listProducts}</ol>        
+            <ol>{listInvoices}</ol>        
           </div>
           <div>
             <button>Add Invoice</button>
