@@ -1,36 +1,37 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Navbar from './Navbar'
-import { fetchInvoices } from '../actions/invoiceActions.js'
+import { fetchInvoices, fetchAddInvoice, fetchDeleteInvoice } from '../actions/invoiceActions.js'
 import { fetchCustomers } from '../actions/customerActions.js'
 import { fetchProducts } from '../actions/productActions.js'
 import InvoiceForm from './InvoiceForm.jsx'
+import {openModal} from '../actions/modalActions.js'
 
 class App extends Component {
 
   componentWillMount() {
     this.props.dispatch(fetchInvoices())
-    this.props.dispatch(fetchProducts())
-    this.props.dispatch(fetchCustomers())
   }
 
-  componentDidMount() {
-    console.log('my props: ', this.props)
+  handleOpenModal = () => {
+    const { dispatch } = this.props
+    dispatch(fetchAddInvoice({customer_id:0,discount:0,total:0}))
+    dispatch(fetchInvoices())
+    dispatch(openModal())
   }
 
-  componentWillReceiveProps(nextProps){
-    if(nextProps.contacts !== this.props.contacts){
-      this.nextProps.dispatch(fetchCustomers())
-    }
+  handleDeleteInvoice = (item) => {
+    const {dispatch, invoices} = this.props
+    dispatch(fetchDeleteInvoice(item))
+    dispatch(fetchInvoices())
   }
+
 
   render() {
-    const { invoices, customers, products } = this.props
+    const { invoices } = this.props
     const listInvoices = invoices.invoices.map(item => (
-      <li>Item ID:  {item.id}</li>
-    ))
-    const listProducts = products.products.map(item => (
-      <li key={item.id}>{item.name}</li>
+      <li key={item.id}>
+        <span>Item ID:  {item.id} <button onClick={() => this.handleDeleteInvoice(item)} className='btn btn-danger'>Delete</button></span></li>
     ))
 
     return (
@@ -39,10 +40,14 @@ class App extends Component {
         <div className="container">
           Invoice List
           <div>
-            <ol>{listInvoices}</ol>        
+            <ul>{listInvoices}</ul>        
           </div>
           <div>
-            <button>Add Invoice</button>
+            <button 
+              className="btn btn-default" 
+              onClick={this.handleOpenModal}
+            >Add Invoice
+            </button>
           </div>
         </div>
         <InvoiceForm />
@@ -52,11 +57,17 @@ class App extends Component {
 }
 
 const mapPropsToState = state => {
-  const { invoices, customers, products } = state
+  const { 
+    invoices, 
+    customers, 
+    products, 
+    modal 
+  } = state
   return {
     invoices,
     customers,
     products,
+    modal,
   }
 }
 

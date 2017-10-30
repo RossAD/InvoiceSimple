@@ -1,7 +1,7 @@
 import {
   REQUEST_CUSTOMERS,
   RECEIVE_CUSTOMERS,
-} from '../actions/customerActions.js'
+} from '../actions/actionTypes.js'
 
 export const customers = ( state = {
   isFetching: false,
@@ -17,7 +17,7 @@ export const customers = ( state = {
       return {
         ...state,
         isFetching: false,
-        customers: action.customers
+        customers: action.customers 
       }
     default:
       return state

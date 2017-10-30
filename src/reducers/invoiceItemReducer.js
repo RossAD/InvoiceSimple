@@ -5,6 +5,7 @@ import {
   RECEIVE_INVOICE_ITEM,
   UPDATE_INVOICE_ITEM,
   DELETE_INVOICE_ITEM,
+  ADD_INVOICE_ITEM,
 } from '../actions/actionTypes.js'
 
 export const invoiceItems = ( state = {
@@ -43,8 +44,13 @@ export const invoiceItems = ( state = {
     case UPDATE_INVOICE_ITEM:
       return {
         ...state,
+        item: action.item
+      }
+    case ADD_INVOICE_ITEM:
+      return {
+        ...state,
         invoiceId: action.invoiceId,
-        itemId: action.itemId
+        item: action.item
       }
     default:
       return state
