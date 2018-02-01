@@ -7,13 +7,14 @@
     "watch": "node_modules/.bin/webpack --watch --colors"
   },
   "dependencies": {
-    "body-parser": "1.15.2",
-    "cors": "2.8.1",
-    "express": "~4.13.4",
+    "body-parser": "1.18.2",
+    "cors": "2.8.4",
+    "express": "~4.16.2",
     "lodash": "latest",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "sequelize": "^3.20.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "sequelize": "^4.32.2",
     "sqlite3": "latest"
   },
   "devDependencies": {
